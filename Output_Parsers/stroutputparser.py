@@ -7,6 +7,7 @@ import secrets
 from pydantic_core.core_schema import json_schema
 
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = secrets.HuggingFaceHub_ACCESS_TOKEN
+
 llm = HuggingFaceEndpoint(
   repo_id="openai/gpt-oss-120b",
   task = "text-generation"
@@ -26,7 +27,10 @@ template2 = PromptTemplate(
     input_variables= '[text]'
 )
 
+#parser
 parser = StrOutputParser()
+
+#chain
 chain = template1 | model | parser | template2 | model | parser
 result = chain.invoke({'topic': 'black hole'})
 
